@@ -2,7 +2,7 @@
 
 > Visit the [English version of the workshop](../en/).
 
-El [taller de Rust para absolutos novatos](https://delapuente.github.io/rust-workshop/) asume que jamás has programado con lenguajes de sistemas. Aunque esta guía presupone que alguna vez has programado, el texto repasa conceptos de programación básicos, por lo que deberías poder seguir el taller aun si es la primera vez que programas.
+El [taller de Rust para absolutos novatos](https://delapuente.github.io/rust-workshop/es) asume que jamás has programado con lenguajes de sistemas. Aunque esta guía presupone que alguna vez has programado, el texto repasa conceptos de programación básicos, por lo que deberías poder seguir el taller aun si es la primera vez que programas.
 
 El taller de Rust para absolutos novatos está basado en los ejercicios propuestos por Niko Matsakis y Aaron Turon [en sus tutoriales para la RustConf17](http://www.rust-tutorials.com/RustConf17/) pero las presentaciones han sido adaptadas a texto para permitir un aprendizaje autónomo, que no dependa de un experto en Rust.
 
