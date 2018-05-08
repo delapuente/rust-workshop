@@ -1,0 +1,451 @@
+
+<!DOCTYPE HTML>
+<html lang="es" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Introducción · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.2">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="workshop.html" />
+    
+    
+    <link rel="prev" href="../environment/rust-playground.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Escribe para buscar" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    El taller
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Rust Playground</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../environment/rust-playground.html">
+            
+                <a href="../environment/rust-playground.html#rust-playground">
+            
+                    
+                    ¿Qué es Rust Playground?
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Taller</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="workshop.html">
+            
+                <a href="workshop.html#intro">
+            
+                    
+                    Introducción
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="workshop.html">
+            
+                <a href="workshop.html#beginner">
+            
+                    
+                    Tutorial para principiantes
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="workshop.html">
+            
+                <a href="workshop.html#ownership">
+            
+                    
+                    Propiedad
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="workshop.html">
+            
+                <a href="workshop.html#borrows">
+            
+                    
+                    Préstamos compartidos
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="workshop.html">
+            
+                <a href="workshop.html#mutable-borrows">
+            
+                    
+                    Préstamos mutables
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.4" data-path="workshop.html">
+            
+                <a href="workshop.html#estructuras">
+            
+                    
+                    Estructuras
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Guía del taller</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" >
+            
+                <span>
+            
+                    
+                    Público
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" >
+            
+                <span>
+            
+                    
+                    Duración
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" >
+            
+                <span>
+            
+                    
+                    Equipamiento
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" >
+            
+                <span>
+            
+                    
+                    Objetivo
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" >
+            
+                <span>
+            
+                    
+                    Consideraciones adicionales
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Publicado con GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Introducción</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="intro">Introducci&#xF3;n </h1>
+<p>La programaci&#xF3;n de sistemas es aquella cuya finalidad es la de programar software que utilizar&#xE1;n otros programas. Un sistema operativo, un servidor HTTP o un motor de juegos son ejemplos de sistemas.</p>
+<p>Este taller de Rust para absolutos novatos presenta y explica las caracter&#xED;sticas de Rust tratando de no compararlo con otros lenguajes. El texto, no obstante, asume que alguna vez has programado, aunque haya sido con lenguajes din&#xE1;micos o Web.</p>
+<p>Comencemos con un sencillo programa de ejemplo para enumerar algunas caracter&#xED;sticas de la sintaxis de Rust.</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> name: <span class="hljs-built_in">String</span> = <span class="hljs-string">&quot;Salva&quot;</span>.to_string();
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Hola {}&quot;</span>, emphasis(name));
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">emphasis</span></span>(message: <span class="hljs-built_in">String</span>) -&gt; <span class="hljs-built_in">String</span> {
+    message.to_uppercase() + <span class="hljs-string">&quot;!&quot;</span>
+}
+</code></pre>
+<p>En Rust, las funciones comienzan con la palabra clave <code>fn</code> y la funci&#xF3;n llamada <code>main</code> es el punto de entrada.</p>
+<p>Las variables se declaran con <code>let</code> acompa&#xF1;ado de un identificador y una inicializaci&#xF3;n obligatoria. El tipo <code>String</code>, indicado entre los dos puntos <code>:</code> y el igual <code>=</code> es opcional.</p>
+<p>Antes de continuar, no puedo dejar de enfatizar que los sistemas de tipos no existen para hacer la programaci&#xF3;n m&#xE1;s complicada, sino que son herramientas de dise&#xF1;o: nos exigen coherencia en el software que constru&#xED;mos.</p>
+<p>Rust es un lenguaje con un sistema de tipos modernos que permite omitir casi cualquier anotaci&#xF3;n de tipos. Rust intentar&#xE1; adivinar el tipo por el contexto, aplicando una t&#xE9;cnica llamada inferencia de tipos. S&#xF3;lo en la signaturas de las funciones, Rust exige que los tipos se especifiquen expl&#xED;citamente.</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> v = <span class="hljs-built_in">vec!</span>();  <span class="hljs-comment">// Rust no puede deducir de qu&#xE9; clase de vector se trata.</span>
+    v.push(<span class="hljs-number">1</span>);       <span class="hljs-comment">// Pero aqu&#xED;, Rust sabe que v es un vector de enteros.</span>
+    v.push(<span class="hljs-string">&quot;mundo&quot;</span>); <span class="hljs-comment">// Y esto falla: &quot;mismatched types&quot;.</span>
+}
+</code></pre>
+<p>Ademas, ante el error, el compilador de Rust siempre intentar&#xE1; ayudarnos, emitiendo la suficiente informaci&#xF3;n para <strong>contextualizar el error, explicarlo y solucionarlo</strong>. En Rust hay que acostumbrarse a leer los mensajes de error y colaborar con el compilador:</p>
+<pre><code>error[E0308]: mismatched types
+ --&gt; src/main.rs:5:12
+  |
+5 |     v.push(&quot;mundo&quot;); // Y esto falla.
+  |            ^^^^^^^ expected integral variable, found reference
+  |
+  = note: expected type `{integer}`
+             found type `&amp;&apos;static str`
+</code></pre><p>Volviendo a la sintaxsis, podemos llamar m&#xE9;todos sobre valores usando el operador <code>.</code> como ocurren en <code>.to_string()</code> o <code>.to_uppercase()</code>. La llamada a <code>.to_string()</code> es necesaria porque los literales de cadena tienen, por defecto, otro tipo.</p>
+<p>El identificador <code>println!</code> no es una funci&#xF3;n al uso sino una <em>macro</em>. Una macro es un tipo de funci&#xF3;n que se ejecuta en tiempo de compilaci&#xF3;n y produce c&#xF3;digo que reemplaza a la llamada en un proceso llamado macro-expansi&#xF3;n.</p>
+<p>Sin embargo, <code>emphasis</code> s&#xED; que es una funci&#xF3;n al uso. En la <em>signatura</em> de la funci&#xF3;n, los tipos son obligatorios. Debemos indicar <strong>qu&#xE9; tipo de datos se esperan como par&#xE1;metros y el tipo de salida</strong>.</p>
+<p>El <strong>valor de retorno de cualquier funci&#xF3;n es el valor de la &#xFA;ltima expresi&#xF3;n ejecutada</strong>. F&#xED;jate como esta expresi&#xF3;n <strong>no termina en <code>;</code></strong>. En Rust, el punto y coma <code>;</code> es un operador especial, que s&#xF3;lo puede aparecer al final de una expresi&#xF3;n y que anula el resultado de dicha expresi&#xF3;n.</p>
+<h2 id="beginners">Tutorial para principiantes </h2>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../environment/rust-playground.html#rust-playground" class="navigation navigation-prev " aria-label="Previous page: ¿Qué es Rust Playground?">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="workshop.html#beginner" class="navigation navigation-next " aria-label="Next page: Tutorial para principiantes">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Introducción","level":"3.1","depth":1,"next":{"title":"Tutorial para principiantes","level":"3.2","depth":1,"anchor":"#beginner","path":"workshop/workshop.md","ref":"workshop/workshop.md#beginner","articles":[{"title":"Propiedad","level":"3.2.1","depth":2,"anchor":"#ownership","path":"workshop/workshop.md","ref":"workshop/workshop.md#ownership","articles":[]},{"title":"Préstamos compartidos","level":"3.2.2","depth":2,"anchor":"#borrows","path":"workshop/workshop.md","ref":"workshop/workshop.md#borrows","articles":[]},{"title":"Préstamos mutables","level":"3.2.3","depth":2,"anchor":"#mutable-borrows","path":"workshop/workshop.md","ref":"workshop/workshop.md#mutable-borrows","articles":[]},{"title":"Estructuras","level":"3.2.4","depth":2,"anchor":"#estructuras","path":"workshop/workshop.md","ref":"workshop/workshop.md#estructuras","articles":[]}]},"previous":{"title":"¿Qué es Rust Playground?","level":"2.1","depth":1,"anchor":"#rust-playground","path":"environment/rust-playground.md","ref":"environment/rust-playground.md#rust-playground","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"es","gitbook":"*"},"file":{"path":"workshop/workshop.md","mtime":"2018-05-08T12:02:53.982Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-08T12:02:58.633Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
