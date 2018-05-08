@@ -1,0 +1,54 @@
+{
+  "name": "rust-workshop",
+  "version": "1.0.0",
+  "description": "Rust Language workshop for absolute beginners",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "styles:es": "mkdirp ./es/styles && cpr styles/website.css es/styles/ -o",
+    "styles:en": "mkdirp ./en/styles && cpr styles/website.css en/styles/ -o",
+    "serve:es": "npm run styles:es && gitbook serve ./es",
+    "serve:en": "npm run styles:en && gitbook serve ./en",
+    "ebook:es": "mkdirp dist/es/ebook && npm run ebook:es:pdf && npm run ebook:es:epub",
+    "ebook:es:pdf": "gitbook pdf ./es ./dist/es/ebook/rust-workshop.pdf",
+    "ebook:es:epub": "gitbook epub ./es ./dist/es/ebook/rust-workshop.epub",
+    "ebook:en": "mkdirp dist/en/ebook && npm run ebook:en:pdf && npm run ebook:en:epub",
+    "ebook:en:pdf": "gitbook pdf ./en ./dist/en/ebook/rust-workshop.pdf",
+    "ebook:en:epub": "gitbook epub ./en ./dist/en/ebook/rust-workshop.epub",
+    "gitbook:es": "gitbook build ./es dist/es",
+    "gitbook:en": "gitbook build ./en dist/en",
+    "build:es": "npm run styles:es && npm run gitbook:es",
+    "build:en": "npm run styles:en && npm run gitbook:en",
+    "build:root": "mkdirp dist && cpr root dist -u -o",
+    "build": "npm run build:root && npm run build:es && npm run build:en",
+    "clean": "rimraf dist ./es/styles es/**/*.zip ./en/styles en/**/*.zip",
+    "deploy": "gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/delapuente/rust-workshop.git"
+  },
+  "keywords": [
+    "learning",
+    "tutorial",
+    "workshop",
+    "rust",
+    "borrowing",
+    "ownership",
+    "types"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/delapuente/rust-workshop/issues"
+  },
+  "homepage": "https://github.com/delapuente/rust-workshop#readme",
+  "private": true,
+  "dependencies": {
+    "archiver": "^1.2.0",
+    "cpr": "^2.0.0",
+    "gh-pages": "^0.12.0",
+    "gitbook-cli": "^2.3.0",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.5.4"
+  }
+}
