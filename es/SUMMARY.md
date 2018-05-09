@@ -10,9 +10,14 @@
 - [Introducción](workshop/workshop.md#intro)
 - [Tutorial para principiantes](workshop/workshop.md#beginner)
   - [Propiedad](workshop/workshop.md#ownership)
-  - [Préstamos compartidos](workshop/workshop.md#borrows)
-  - [Préstamos mutables](workshop/workshop.md#mutable-borrows)
-  - [Estructuras](workshop/workshop.md#estructuras)
+  - [Préstamo](workshop/workshop.md#borrows)
+
+## Preguntas en clase
+
+- ¿Se puede reutilizar una variable?
+- ¿Los datos se pasan por valor o por referencia?
+- ¿Qué diferencia hay entre `"{}"` y `"{:?}"` cuando se usa con `println!`?
+- ¿Qué diferencia hay entre `String`, `&String` y `&str`?
 
 ## Guía del taller
 
