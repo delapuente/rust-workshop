@@ -70,7 +70,9 @@ Prueba a realizar el [ejercicio 1](https://play.rust-lang.org/?code=%2F%2F+Goals
 
 ### Propiedad {#ownership}
 
-La propiedad (u _ownership_, en inglés) es el permiso de acceso a un valor. En Rust, este permiso es de "sólo lectura" por defecto y lo tiene la función que creó el dato. A menos que se especifique lo contrario, cuando pasamos un dato como parámetro, transferimos la propiedad del dato a la función invocada, de forma que ya no podremos volver a acceder al mismo dato desde la invocante. A esto se le llama "mover un valor":
+La propiedad (u _ownership_, en inglés) representa el **deber de gestionar un dato**, lo que incluye alterarlo y destruirlo cuando ya no sea necesario. Por defecto, en Rust, este "deber" permite leer el dato, **pero no alterarlo** y lo tiene la función que creó el mísmo.
+
+A menos que se especifique lo contrario, cuando pasamos un dato como parámetro, transferimos la propiedad del dato a la función invocada, de forma que ya no podremos volver a acceder al mismo dato desde la función invocante. A esto se le llama "mover un valor":
 
 ```rust
 fn main() {
@@ -146,7 +148,7 @@ Antes de terminar, existe una notable excepción al comportamiento por defecto d
 fn main() {
     let number = 42;
     greeting(number); // Funciona.
-    yell(number);      // También funciona.
+    yell(number);     // También funciona.
 }
 
 fn greeting(message: i32) {
@@ -160,13 +162,13 @@ fn yell(message: i32) {
 
 En Rust, [algunos tipos pueden marcarse como `Copy`](https://doc.rust-lang.org/std/marker/trait.Copy.html#implementors), que significa que cada vez que se pasan, se realiza una **copia implícita**.
 
-Echa un vistazo a [las diapositivas de este tema](http://www.rust-tutorials.com/RustConf17//PDF/10-Ownership.pdf), las cuales ilustran lo que ocurren en caso de movimiento, copia y copia implícita de un valor.
+Echa un vistazo a [las diapositivas de este tema](http://www.rust-tutorials.com/RustConf17//PDF/10-Ownership.pdf), las cuales ilustran lo que ocurren en caso de movimiento, copia (_clone_) y copia implícita (_copy_) de un valor.
 
 Practica lo que has aprendido con el [ejercicio 2](https://play.rust-lang.org/?code=fn+main%28%29+%7B%0A++++let+%28adjective%2C+name%29+%3D+two_words%28%29%3B%0A++++let+name+%3D+format%21%28%22%7B%7D+%7B%7D%22%2C+adjective%2C+name%29%3B%0A++++print_out%28name%29%3B%0A%7D%0A%0Afn+two_words%28%29+-%3E+%28String%2C+String%29+%7B%0A++++%28format%21%28%22fellow%22%29%2C+format%21%28%22Rustaceans%22%29%29%0A%7D%0A%0Afn+remove_vowels%28name%3A+String%29+-%3E+String+%7B%0A++++%2F%2F+Goal+%231%3A+What+is+needed+here+to+make+this+compile%3F%0A++++let+output+%3D+String%3A%3Anew%28%29%3B%0A++++for+c+in+name.chars%28%29+%7B%0A++++++++match+c+%7B%0A++++++++++++%27a%27+%7C+%27e%27+%7C+%27i%27+%7C+%27o%27+%7C+%27u%27+%3D%3E+%7B%0A++++++++++++++++%2F%2F+skip+vowels%0A++++++++++++%7D%0A++++++++++++_+%3D%3E+%7B%0A++++++++++++++++output.push%28c%29%3B%0A++++++++++++%7D%0A++++++++%7D%0A++++%7D%0A++++output%0A%7D%0A%0Afn+print_out%28name%3A+String%29+%7B%0A++++let+devowelized_name+%3D+remove_vowels%28name%29%3B%0A++++println%21%28%22Removing+vowels+yields+%7B%3A%3F%7D%22%2C+devowelized_name%29%3B%0A%0A++++%2F%2F+Goal+%232%3A+What+happens+when+you+uncomment+the+%60println%60+below%3F%0A++++%2F%2F+Can+you+change+the+code+above+so+that+the+code+below+compiles%0A++++%2F%2F+successfully%3F%0A++++%2F%2F%0A++++%2F%2F+println%21%28%22Removing+vowels+from+%7B%3A%3F%7D+yields+%7B%3A%3F%7D%22%2C%0A++++%2F%2F++++++++++name%2C+devowelized_name%29%3B%0A%0A++++%2F%2F+Extra+credit%3A+Can+you+do+it+without+copying+any+data%3F%0A++++%2F%2F+%28Using+only+ownership+transfer%29%0A%7D%0A&version=nightly). Recuerda que el compilador de Rust **es tu aliado**, lee los mensajes de error con atención para obtener pistas acerca de cómo completar el ejercicio.
 
 ## Préstamo {#borrows}
 
-Existe una forma de evitar el movimiento de un valor y aun así no tener que copiarlo, ahorrando algunos ciclos de reloj y simplificando el uso de nuestras funciones. Para ello Rust permite "dar en préstamo" un valor. Puedes pensar que "dar en préstamo" es realmente "conceder acceso tempora" al valor. Esta concesión se realiza por medio de referencias y, a menos que es especifique explícitamente, el acceso resultante es de sólo lectura:
+Existe una forma de evitar el movimiento de un valor y aun así no tener que copiarlo, simplificando el uso de nuestras funciones. Para ello Rust permite "dar en préstamo" un valor. Puedes pensar que "dar en préstamo" es realmente "conceder acceso temporal" al valor. Esta concesión se realiza por medio de referencias y, a menos que es especifique explícitamente, el acceso resultante es de sólo lectura:
 
 ```rust
 fn main() {
@@ -188,6 +190,8 @@ fn yell(message: &String) {
 Fíjate en la sintáxis: el tipo `&String` significa "referencia a String" y el mismo ampersand `&` acompañado de un valor como en `&name` significa "tomar una referencia al valor". Al pasar, devolver o asignar referencias estamos "prestando el valor".
 
 Los préstamos evitan el uso de copias sin tener que mover el valor _de vuelta_, lo que resulta en usos más naturales de las funciones.
+
+Además **los préstamos no transfieren la propiedad**. El encargado de destruir el dato creado lo mantiene la función desde la que se tomó el préstamo.
 
 Trata de adaptar tú el [siguiente ejemplo](http://is.gd/no0tTH).
 
