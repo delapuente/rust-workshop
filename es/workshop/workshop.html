@@ -196,53 +196,66 @@
         
         
     
-        <li class="chapter " data-level="4.1" >
+        <li class="chapter " data-level="4.1" data-path="faq.html">
             
-                <span>
+                <a href="faq.html#reuse-names">
             
                     
                     ¿Se puede reutilizar una variable?
             
-                </span>
+                </a>
             
 
             
         </li>
     
-        <li class="chapter " data-level="4.2" >
+        <li class="chapter " data-level="4.2" data-path="faq.html">
             
-                <span>
+                <a href="faq.html#value-or-reference">
             
                     
                     ¿Los datos se pasan por valor o por referencia?
             
-                </span>
+                </a>
             
 
             
         </li>
     
-        <li class="chapter " data-level="4.3" >
+        <li class="chapter " data-level="4.3" data-path="faq.html">
             
-                <span>
+                <a href="faq.html#why-movement-semantics">
             
                     
-                    ¿Qué diferencia hay entre  y  cuando se usa con ?
+                    ¿Por qué "mover un valor"? ¿Para qué sirve?
             
-                </span>
+                </a>
             
 
             
         </li>
     
-        <li class="chapter " data-level="4.4" >
+        <li class="chapter " data-level="4.4" data-path="faq.html">
             
-                <span>
+                <a href="faq.html#display-and-debug">
             
                     
-                    ¿Qué diferencia hay entre ,  y ?
+                    ¿Qué diferencia hay entre "{}" y "{:?}" cuando se usa con println!?
             
-                </span>
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="faq.html">
+            
+                <a href="faq.html#string-refstring-refstr">
+            
+                    
+                    ¿Qué diferencia hay entre String, &String y &str?
+            
+                </a>
             
 
             
@@ -410,7 +423,8 @@
 <p>Para lograr estos objetivos, Rust posee los siguientes mecanismos, que exploraremos en esta primera parte del tutorial: propiedad, pr&#xE9;stamo y control de la mutabilidad.</p>
 <p>Prueba a realizar el <a href="https://play.rust-lang.org/?code=%2F%2F+Goals%3A%0A%2F%2F+-+change+to+greet+you+by+name%0A%2F%2F+-+introduce+a+variable+%60name%60+and+insert+this+into+the+format+string%0A%2F%2F+-+try+%60println%21%28%22%7B%7D%22%2C+name%29%60+vs+%60println%21%28%22%7B%3A%3F%7D%22%2C+name%29%60+and+see+what+the+difference+is%0A%0Afn+main%28%29+%7B%0A++++println%21%28%22Hello%2C+world%21%22%29%3B%0A%7D%0A&amp;version=nightly" target="_blank">ejercicio 1</a> para ir familiariz&#xE1;ndote con el lenguaje.</p>
 <h3 id="ownership">Propiedad </h3>
-<p>La propiedad (u <em>ownership</em>, en ingl&#xE9;s) es el permiso de acceso a un valor. En Rust, este permiso es de &quot;s&#xF3;lo lectura&quot; por defecto y lo tiene la funci&#xF3;n que cre&#xF3; el dato. A menos que se especifique lo contrario, cuando pasamos un dato como par&#xE1;metro, transferimos la propiedad del dato a la funci&#xF3;n invocada, de forma que ya no podremos volver a acceder al mismo dato desde la invocante. A esto se le llama &quot;mover un valor&quot;:</p>
+<p>La propiedad (u <em>ownership</em>, en ingl&#xE9;s) representa el <strong>deber de gestionar un dato</strong>, lo que incluye alterarlo y destruirlo cuando ya no sea necesario. Por defecto, en Rust, este &quot;deber&quot; permite leer el dato, <strong>pero no alterarlo</strong> y lo tiene la funci&#xF3;n que cre&#xF3; el m&#xED;smo.</p>
+<p>A menos que se especifique lo contrario, cuando pasamos un dato como par&#xE1;metro, transferimos la propiedad del dato a la funci&#xF3;n invocada, de forma que ya no podremos volver a acceder al mismo dato desde la funci&#xF3;n invocante. A esto se le llama &quot;mover un valor&quot;:</p>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
     <span class="hljs-keyword">let</span> name: <span class="hljs-built_in">String</span> = <span class="hljs-string">&quot;Salva&quot;</span>.to_string();
     greeting(name);
@@ -471,7 +485,7 @@
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
     <span class="hljs-keyword">let</span> number = <span class="hljs-number">42</span>;
     greeting(number); <span class="hljs-comment">// Funciona.</span>
-    yell(number);      <span class="hljs-comment">// Tambi&#xE9;n funciona.</span>
+    yell(number);     <span class="hljs-comment">// Tambi&#xE9;n funciona.</span>
 }
 
 <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">greeting</span></span>(message: <span class="hljs-keyword">i32</span>) {
@@ -483,10 +497,10 @@
 }
 </code></pre>
 <p>En Rust, <a href="https://doc.rust-lang.org/std/marker/trait.Copy.html#implementors" target="_blank">algunos tipos pueden marcarse como <code>Copy</code></a>, que significa que cada vez que se pasan, se realiza una <strong>copia impl&#xED;cita</strong>.</p>
-<p>Echa un vistazo a <a href="http://www.rust-tutorials.com/RustConf17//PDF/10-Ownership.pdf" target="_blank">las diapositivas de este tema</a>, las cuales ilustran lo que ocurren en caso de movimiento, copia y copia impl&#xED;cita de un valor.</p>
+<p>Echa un vistazo a <a href="http://www.rust-tutorials.com/RustConf17//PDF/10-Ownership.pdf" target="_blank">las diapositivas de este tema</a>, las cuales ilustran lo que ocurren en caso de movimiento, copia (<em>clone</em>) y copia impl&#xED;cita (<em>copy</em>) de un valor.</p>
 <p>Practica lo que has aprendido con el <a href="https://play.rust-lang.org/?code=fn+main%28%29+%7B%0A++++let+%28adjective%2C+name%29+%3D+two_words%28%29%3B%0A++++let+name+%3D+format%21%28%22%7B%7D+%7B%7D%22%2C+adjective%2C+name%29%3B%0A++++print_out%28name%29%3B%0A%7D%0A%0Afn+two_words%28%29+-%3E+%28String%2C+String%29+%7B%0A++++%28format%21%28%22fellow%22%29%2C+format%21%28%22Rustaceans%22%29%29%0A%7D%0A%0Afn+remove_vowels%28name%3A+String%29+-%3E+String+%7B%0A++++%2F%2F+Goal+%231%3A+What+is+needed+here+to+make+this+compile%3F%0A++++let+output+%3D+String%3A%3Anew%28%29%3B%0A++++for+c+in+name.chars%28%29+%7B%0A++++++++match+c+%7B%0A++++++++++++%27a%27+%7C+%27e%27+%7C+%27i%27+%7C+%27o%27+%7C+%27u%27+%3D%3E+%7B%0A++++++++++++++++%2F%2F+skip+vowels%0A++++++++++++%7D%0A++++++++++++_+%3D%3E+%7B%0A++++++++++++++++output.push%28c%29%3B%0A++++++++++++%7D%0A++++++++%7D%0A++++%7D%0A++++output%0A%7D%0A%0Afn+print_out%28name%3A+String%29+%7B%0A++++let+devowelized_name+%3D+remove_vowels%28name%29%3B%0A++++println%21%28%22Removing+vowels+yields+%7B%3A%3F%7D%22%2C+devowelized_name%29%3B%0A%0A++++%2F%2F+Goal+%232%3A+What+happens+when+you+uncomment+the+%60println%60+below%3F%0A++++%2F%2F+Can+you+change+the+code+above+so+that+the+code+below+compiles%0A++++%2F%2F+successfully%3F%0A++++%2F%2F%0A++++%2F%2F+println%21%28%22Removing+vowels+from+%7B%3A%3F%7D+yields+%7B%3A%3F%7D%22%2C%0A++++%2F%2F++++++++++name%2C+devowelized_name%29%3B%0A%0A++++%2F%2F+Extra+credit%3A+Can+you+do+it+without+copying+any+data%3F%0A++++%2F%2F+%28Using+only+ownership+transfer%29%0A%7D%0A&amp;version=nightly" target="_blank">ejercicio 2</a>. Recuerda que el compilador de Rust <strong>es tu aliado</strong>, lee los mensajes de error con atenci&#xF3;n para obtener pistas acerca de c&#xF3;mo completar el ejercicio.</p>
 <h2 id="borrows">Pr&#xE9;stamo </h2>
-<p>Existe una forma de evitar el movimiento de un valor y aun as&#xED; no tener que copiarlo, ahorrando algunos ciclos de reloj y simplificando el uso de nuestras funciones. Para ello Rust permite &quot;dar en pr&#xE9;stamo&quot; un valor. Puedes pensar que &quot;dar en pr&#xE9;stamo&quot; es realmente &quot;conceder acceso tempora&quot; al valor. Esta concesi&#xF3;n se realiza por medio de referencias y, a menos que es especifique expl&#xED;citamente, el acceso resultante es de s&#xF3;lo lectura:</p>
+<p>Existe una forma de evitar el movimiento de un valor y aun as&#xED; no tener que copiarlo, simplificando el uso de nuestras funciones. Para ello Rust permite &quot;dar en pr&#xE9;stamo&quot; un valor. Puedes pensar que &quot;dar en pr&#xE9;stamo&quot; es realmente &quot;conceder acceso temporal&quot; al valor. Esta concesi&#xF3;n se realiza por medio de referencias y, a menos que es especifique expl&#xED;citamente, el acceso resultante es de s&#xF3;lo lectura:</p>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
     <span class="hljs-keyword">let</span> name: <span class="hljs-built_in">String</span> = <span class="hljs-string">&quot;Salva&quot;</span>.to_string();
     greeting(&amp;name); <span class="hljs-comment">// Pasamos una referencia a la funci&#xF3;n.</span>
@@ -504,6 +518,7 @@
 </code></pre>
 <p>F&#xED;jate en la sint&#xE1;xis: el tipo <code>&amp;String</code> significa &quot;referencia a String&quot; y el mismo ampersand <code>&amp;</code> acompa&#xF1;ado de un valor como en <code>&amp;name</code> significa &quot;tomar una referencia al valor&quot;. Al pasar, devolver o asignar referencias estamos &quot;prestando el valor&quot;.</p>
 <p>Los pr&#xE9;stamos evitan el uso de copias sin tener que mover el valor <em>de vuelta</em>, lo que resulta en usos m&#xE1;s naturales de las funciones.</p>
+<p>Adem&#xE1;s <strong>los pr&#xE9;stamos no transfieren la propiedad</strong>. El encargado de destruir el dato creado lo mantiene la funci&#xF3;n desde la que se tom&#xF3; el pr&#xE9;stamo.</p>
 <p>Trata de adaptar t&#xFA; el <a href="http://is.gd/no0tTH" target="_blank">siguiente ejemplo</a>.</p>
 <p>Es importante recordar que el acceso por defecto de Rust es de <strong>s&#xF3;lo lectura</strong>. Esto quiere decir que, a menos que se especifique expl&#xED;citamente, no podemos alterar el valor de una variable...</p>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
@@ -592,7 +607,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Introducción","level":"3.1","depth":1,"next":{"title":"Tutorial para principiantes","level":"3.2","depth":1,"anchor":"#beginner","path":"workshop/workshop.md","ref":"workshop/workshop.md#beginner","articles":[{"title":"Propiedad","level":"3.2.1","depth":2,"anchor":"#ownership","path":"workshop/workshop.md","ref":"workshop/workshop.md#ownership","articles":[]},{"title":"Préstamo","level":"3.2.2","depth":2,"anchor":"#borrows","path":"workshop/workshop.md","ref":"workshop/workshop.md#borrows","articles":[]}]},"previous":{"title":"¿Qué es Rust Playground?","level":"2.1","depth":1,"anchor":"#rust-playground","path":"environment/rust-playground.md","ref":"environment/rust-playground.md#rust-playground","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"es","gitbook":"*"},"file":{"path":"workshop/workshop.md","mtime":"2018-05-09T08:06:42.571Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-09T08:23:39.531Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Introducción","level":"3.1","depth":1,"next":{"title":"Tutorial para principiantes","level":"3.2","depth":1,"anchor":"#beginner","path":"workshop/workshop.md","ref":"workshop/workshop.md#beginner","articles":[{"title":"Propiedad","level":"3.2.1","depth":2,"anchor":"#ownership","path":"workshop/workshop.md","ref":"workshop/workshop.md#ownership","articles":[]},{"title":"Préstamo","level":"3.2.2","depth":2,"anchor":"#borrows","path":"workshop/workshop.md","ref":"workshop/workshop.md#borrows","articles":[]}]},"previous":{"title":"¿Qué es Rust Playground?","level":"2.1","depth":1,"anchor":"#rust-playground","path":"environment/rust-playground.md","ref":"environment/rust-playground.md#rust-playground","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"es","gitbook":"*"},"file":{"path":"workshop/workshop.md","mtime":"2018-05-11T08:28:25.050Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-11T08:28:34.904Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
