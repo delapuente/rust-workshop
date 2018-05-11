@@ -16,7 +16,7 @@
 
 - [¿Se puede reutilizar una variable?](workshop/faq.md#reuse-names)
 - [¿Los datos se pasan por valor o por referencia?](workshop/faq.md#value-or-reference)
-- [¿Por qué "mover un valor"? ¿Para qué sirve?](workshop/#why-movement-semantics)
+- [¿Por qué "mover un valor"? ¿Para qué sirve?](workshop/faq.md#why-movement-semantics)
 - [¿Qué diferencia hay entre `"{}"` y `"{:?}"` cuando se usa con `println!`?](workshop/faq.md#display-and-debug)
 - [¿Qué diferencia hay entre `String`, `&String` y `&str`?](workshop/faq.md#string-refstring-refstr)
 
