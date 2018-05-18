@@ -451,6 +451,64 @@
 }
 </code></pre>
 <h2 id="string-refstring-refstr">&#xBF;Qu&#xE9; diferencia hay entre <code>String</code>, <code>&amp;String</code> y <code>&amp;str</code>? </h2>
+<p>Los tipos <code>String</code>, <code>&amp;String</code> y <code>&amp;str</code> se leen &quot;cadena&quot;, &quot;referencia a cadena&quot; y &quot;porci&#xF3;n (<em>slice</em>) de una cadena&quot; respectivamente. La diferencia fundamental se da entre <code>String</code> y <code>&amp;str</code>. Sem&#xE1;nticamente el primer tipo representa un texto en memoria y el segundo una porci&#xF3;n de un texto en memoria. De manera pr&#xE1;ctica, el primero require la reserva de memoria y el segundo no.</p>
+<p>A la hora de implementar procedimientos en los que el resultado es una porci&#xF3;n de un vector de alg&#xFA;n tipo &#x2014;las cadenas de texto son vectores de bytes&#x2014;, se prefiere que el resultado quede expresado como una porci&#xF3;n (<em>slice</em>) del espacio de b&#xFA;squeda.</p>
+<p>Considera el problema de escribir una funci&#xF3;n que devuelva una porci&#xF3;n de una cadena. Por ejemplo, la primera palabra o todo el texto si no hay espacios:</p>
+<pre><code class="lang-rust"><span class="hljs-comment">// Utilizamos referencias para evitar tomar posesi&#xF3;n del par&#xE1;metro.</span>
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">first_word</span></span>(target: &amp;<span class="hljs-built_in">String</span>) -&gt; ??? {
+
+}
+</code></pre>
+<p>&#xBF;Qu&#xE9; devuelve esta funci&#xF3;n? Una opci&#xF3;n es devolver una nueva cadena:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">first_word</span></span>(target: &amp;<span class="hljs-built_in">String</span>) -&gt; <span class="hljs-built_in">String</span> {
+  <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> word = <span class="hljs-string">&quot;&quot;</span>.to_string();
+  <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> target.chars() {
+    <span class="hljs-keyword">if</span> !c.is_whitespace() {
+      word.push(c);
+    }
+    <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">break</span>;
+    }
+  }
+  word
+}
+</code></pre>
+<p>Otra opci&#xF3;n es devolver una vista de la cadena original que revele s&#xF3;lo la primera palabra:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">first_word</span></span>(target: &amp;<span class="hljs-built_in">String</span>) -&gt; &amp;<span class="hljs-keyword">str</span> {
+  <span class="hljs-keyword">match</span> target.find(char::is_whitespace) {
+    <span class="hljs-literal">Some</span>(index) =&gt; { &amp;target[<span class="hljs-number">0</span>..index] }
+    _ =&gt; { &amp;target }
+  }
+}
+</code></pre>
+<p>En Rust, los literales de cadena tienen tipo &quot;porci&#xF3;n de <code>String</code>&quot; y no <code>String</code>. Esto hace imposible llamar a la funci&#xF3;n anterior as&#xED;:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, first_word(<span class="hljs-string">&quot;Hola mundo&quot;</span>)); <span class="hljs-comment">// error, mismatched types</span>
+}
+
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">first_word</span></span>(target: &amp;<span class="hljs-built_in">String</span>) -&gt; &amp;<span class="hljs-keyword">str</span> {
+  <span class="hljs-keyword">match</span> target.find(char::is_whitespace) {
+    <span class="hljs-literal">Some</span>(index) =&gt; { &amp;target[<span class="hljs-number">0</span>..index] }
+    _ =&gt; { &amp;target }
+  }
+}
+</code></pre>
+<p>Pero en Rust, un tipo <code>&amp;String</code> es autom&#xE1;ticamente convertido a un tipo <code>&amp;str</code> por lo que podemos modificar la signatura de nuestra funci&#xF3;n para que sea m&#xE1;s c&#xF3;moda de utilizar:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, first_word(<span class="hljs-string">&quot;Hola mundo&quot;</span>));
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}&quot;</span>, first_word(&amp;<span class="hljs-string">&quot;Hola mundo&quot;</span>.to_string()));
+}
+
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">first_word</span></span>(target: &amp;<span class="hljs-keyword">str</span>) -&gt; &amp;<span class="hljs-keyword">str</span> {
+  <span class="hljs-keyword">match</span> target.find(char::is_whitespace) {
+    <span class="hljs-literal">Some</span>(index) =&gt; { &amp;target[<span class="hljs-number">0</span>..index] }
+    _ =&gt; { &amp;target }
+  }
+}
+</code></pre>
+<p>Este ejemplo est&#xE1; inspirado en el cap&#xED;tulo <a href="https://doc.rust-lang.org/book/second-edition/ch04-03-slices.html" target="_blank"><em>The Slices Type</em></a> del libro online <a href="https://doc.rust-lang.org/book/second-edition" target="_blank"><em>The Rust Programming Language</em></a> (segunda edici&#xF3;n).</p>
 
                                 
                                 </section>
@@ -494,7 +552,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"¿Se puede reutilizar una variable?","level":"4.1","depth":1,"next":{"title":"¿Los datos se pasan por valor o por referencia?","level":"4.2","depth":1,"anchor":"#value-or-reference","path":"workshop/faq.md","ref":"workshop/faq.md#value-or-reference","articles":[]},"previous":{"title":"Préstamo","level":"3.2.2","depth":2,"anchor":"#borrows","path":"workshop/workshop.md","ref":"workshop/workshop.md#borrows","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"es","gitbook":"*"},"file":{"path":"workshop/faq.md","mtime":"2018-05-11T08:24:08.588Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-18T09:54:00.956Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"¿Se puede reutilizar una variable?","level":"4.1","depth":1,"next":{"title":"¿Los datos se pasan por valor o por referencia?","level":"4.2","depth":1,"anchor":"#value-or-reference","path":"workshop/faq.md","ref":"workshop/faq.md#value-or-reference","articles":[]},"previous":{"title":"Préstamo","level":"3.2.2","depth":2,"anchor":"#borrows","path":"workshop/workshop.md","ref":"workshop/workshop.md#borrows","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"es","gitbook":"*"},"file":{"path":"workshop/faq.md","mtime":"2018-05-18T11:35:38.464Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-18T11:35:48.476Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
