@@ -100,3 +100,79 @@ fn main() {
 ```
 
 ## ¿Qué diferencia hay entre `String`, `&String` y `&str`? {#string-refstring-refstr}
+
+Los tipos `String`, `&String` y `&str` se leen "cadena", "referencia a cadena" y "porción (_slice_) de una cadena" respectivamente. La diferencia fundamental se da entre `String` y `&str`. Semánticamente el primer tipo representa un texto en memoria y el segundo una porción de un texto en memoria. De manera práctica, el primero require la reserva de memoria y el segundo no.
+
+A la hora de implementar procedimientos en los que el resultado es una porción de un vector de algún tipo &mdash;las cadenas de texto son vectores de bytes&mdash;, se prefiere que el resultado quede expresado como una porción (_slice_) del espacio de búsqueda.
+
+Considera el problema de escribir una función que devuelva una porción de una cadena. Por ejemplo, la primera palabra o todo el texto si no hay espacios:
+
+```rust
+// Utilizamos referencias para evitar tomar posesión del parámetro.
+fn first_word(target: &String) -> ??? {
+
+}
+```
+
+¿Qué devuelve esta función? Una opción es devolver una nueva cadena:
+
+```rust
+fn first_word(target: &String) -> String {
+  let mut word = "".to_string();
+  for c in target.chars() {
+    if !c.is_whitespace() {
+      word.push(c);
+    }
+    else {
+      break;
+    }
+  }
+  word
+}
+```
+
+Otra opción es devolver una vista de la cadena original que revele sólo la primera palabra:
+
+```rust
+fn first_word(target: &String) -> &str {
+  match target.find(char::is_whitespace) {
+    Some(index) => { &target[0..index] }
+    _ => { &target }
+  }
+}
+```
+
+En Rust, los literales de cadena tienen tipo "porción de `String`" y no `String`. Esto hace imposible llamar a la función anterior así:
+
+```rust
+fn main() {
+    println!("{}", first_word("Hola mundo")); // error, mismatched types
+}
+
+
+fn first_word(target: &String) -> &str {
+  match target.find(char::is_whitespace) {
+    Some(index) => { &target[0..index] }
+    _ => { &target }
+  }
+}
+```
+
+Pero en Rust, un tipo `&String` es automáticamente convertido a un tipo `&str` por lo que podemos modificar la signatura de nuestra función para que sea más cómoda de utilizar:
+
+```rust
+fn main() {
+    println!("{}", first_word("Hola mundo"));
+    println!("{}", first_word(&"Hola mundo".to_string()));
+}
+
+
+fn first_word(target: &str) -> &str {
+  match target.find(char::is_whitespace) {
+    Some(index) => { &target[0..index] }
+    _ => { &target }
+  }
+}
+```
+
+Este ejemplo está inspirado en el capítulo [_The Slices Type_](https://doc.rust-lang.org/book/second-edition/ch04-03-slices.html) del libro online [_The Rust Programming Language_](https://doc.rust-lang.org/book/second-edition) (segunda edición).
