@@ -184,6 +184,19 @@
             
         </li>
     
+        <li class="chapter " data-level="3.2.3" data-path="workshop.html">
+            
+                <a href="workshop.html#mutable-borrows">
+            
+                    
+                    Préstamos mutables
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -256,6 +269,32 @@
                     ¿Qué diferencia hay entre String, &String y &str?
             
                 </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" >
+            
+                <span>
+            
+                    
+                    ¿Qué representa String?
+            
+                </span>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" >
+            
+                <span>
+            
+                    
+                    ¿Cuál es la representación interna de los objetos de Rust?
+            
+                </span>
             
 
             
@@ -415,7 +454,8 @@
 </code></pre><p>Volviendo a la sintaxsis, podemos llamar m&#xE9;todos sobre valores usando el operador <code>.</code> como ocurre en <code>.to_string()</code> o en <code>.chars().count()</code>. La llamada a <code>.to_string()</code> es necesaria porque los literales de cadena tienen otro tipo por defecto. En los ejemplos tambi&#xE9;n te encontrar&#xE1;s esto escrito <a href="https://doc.rust-lang.org/std/macro.format.html" target="_blank"><code>format!(&quot;Literal de cadena&quot;)</code></a>.</p>
 <p>El identificador <code>println!</code> no es una funci&#xF3;n al uso sino una <em>macro</em>. Una macro es un tipo de funci&#xF3;n que se ejecuta en tiempo de compilaci&#xF3;n y produce c&#xF3;digo Rust que reemplaza a la llamada.</p>
 <p>Sin embargo, <code>greeting</code> s&#xED; que es una funci&#xF3;n m&#xE1;s, como <code>main</code>. En la signatura de la funci&#xF3;n, los tipos son obligatorios. Debemos indicar <strong>qu&#xE9; tipo de datos se esperan como par&#xE1;metros y el tipo de salida</strong>.</p>
-<p>El <strong>valor de retorno de cualquier funci&#xF3;n es el valor de la &#xFA;ltima expresi&#xF3;n ejecutada</strong>. F&#xED;jate como la &#xFA;ltima l&#xED;nea de <code>greeting</code> <strong>no termina en <code>;</code></strong>. En Rust, el punto y coma <code>;</code> es un operador especial, que s&#xF3;lo puede aparecer al final de una expresi&#xF3;n, y que anula el resultado de dicha expresi&#xF3;n.</p>
+<p>El valor de retorno de una funci&#xF3;n puede expresarse de dos maneras: o bien expl&#xED;citamente mediante la palabra clave <code>return</code>, o bien, de forma m&#xE1;s com&#xFA;n <strong>omitiendo el punto y coma al final de la &#xFA;ltima l&#xED;nea</strong>.</p>
+<p>En Rust, el punto y coma <code>;</code> es un operador especial, que s&#xF3;lo puede omitirse al final de la &#xFA;ltima expresi&#xF3;n, y que, de estar presente, anula el resultado de dicha expresi&#xF3;n.</p>
 <h2 id="beginners">Tutorial para principiantes </h2>
 <p>Uno de los principales recursos de un ordenador es la memoria. La memoria es un espacio direccionable en el que se almacenan tanto los propios programas en ejecuci&#xF3;n como los datos con los que dicho programas van a trabajar.</p>
 <p>Los programas en ejecuci&#xF3;n conviven juntos en memoria y es posible que un programa malintencionado invada el espacio de otro con el fin de controlarlo. En Rust, esta situaci&#xF3;n es imposible y por eso se dice de &#xE9;l que es un lenguaje de programaci&#xF3;n seguro.</p>
@@ -423,7 +463,7 @@
 <p>Para lograr estos objetivos, Rust posee los siguientes mecanismos, que exploraremos en esta primera parte del tutorial: propiedad, pr&#xE9;stamo y control de la mutabilidad.</p>
 <p>Prueba a realizar el <a href="https://play.rust-lang.org/?code=%2F%2F+Goals%3A%0A%2F%2F+-+change+to+greet+you+by+name%0A%2F%2F+-+introduce+a+variable+%60name%60+and+insert+this+into+the+format+string%0A%2F%2F+-+try+%60println%21%28%22%7B%7D%22%2C+name%29%60+vs+%60println%21%28%22%7B%3A%3F%7D%22%2C+name%29%60+and+see+what+the+difference+is%0A%0Afn+main%28%29+%7B%0A++++println%21%28%22Hello%2C+world%21%22%29%3B%0A%7D%0A&amp;version=nightly" target="_blank">ejercicio 1</a> para ir familiariz&#xE1;ndote con el lenguaje.</p>
 <h3 id="ownership">Propiedad </h3>
-<p>La propiedad (u <em>ownership</em>, en ingl&#xE9;s) representa el <strong>deber de gestionar un dato</strong>, lo que incluye alterarlo y destruirlo cuando ya no sea necesario. Por defecto, en Rust, este &quot;deber&quot; permite leer el dato, <strong>pero no alterarlo</strong> y lo tiene la funci&#xF3;n que cre&#xF3; el m&#xED;smo.</p>
+<p>La propiedad (u <em>ownership</em>, en ingl&#xE9;s) representa el <strong>los derechos de lectura y modificaci&#xF3;n; as&#xED; como el deber de destruir un objeto</strong>. La propiedad la tiene la funci&#xF3;n que crea el objeto y, por defecto, la propiedad se adquiere s&#xF3;lo con permiso de lectura <strong>pero no de escritura</strong>.</p>
 <p>A menos que se especifique lo contrario, cuando pasamos un dato como par&#xE1;metro, transferimos la propiedad del dato a la funci&#xF3;n invocada, de forma que ya no podremos volver a acceder al mismo dato desde la funci&#xF3;n invocante. A esto se le llama &quot;mover un valor&quot;:</p>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
     <span class="hljs-keyword">let</span> name: <span class="hljs-built_in">String</span> = <span class="hljs-string">&quot;Salva&quot;</span>.to_string();
@@ -464,7 +504,7 @@
     <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;{}!!!&quot;</span>, message);
 }
 </code></pre>
-<p>Conviene hacer notar que igual que movemos un valor hacia el interior de una funci&#xF3;n, tambi&#xE9;n es posible devolver el valor hacia el exterior, basta con devolver el valor como parte de la expresi&#xF3;n de retorno:</p>
+<p>Conviene hacer notar que igual que movemos un valor hacia el interior de una funci&#xF3;n, tambi&#xE9;n es posible mover el valor hacia el exterior, basta con usar el valor como parte de la expresi&#xF3;n de retorno:</p>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
     <span class="hljs-keyword">let</span> name: <span class="hljs-built_in">String</span> = <span class="hljs-string">&quot;Salva&quot;</span>.to_string();
     <span class="hljs-keyword">let</span> former_name = greeting(name);
@@ -499,8 +539,8 @@
 <p>En Rust, <a href="https://doc.rust-lang.org/std/marker/trait.Copy.html#implementors" target="_blank">algunos tipos pueden marcarse como <code>Copy</code></a>, que significa que cada vez que se pasan, se realiza una <strong>copia impl&#xED;cita</strong>.</p>
 <p>Echa un vistazo a <a href="http://www.rust-tutorials.com/RustConf17//PDF/10-Ownership.pdf" target="_blank">las diapositivas de este tema</a>, las cuales ilustran lo que ocurren en caso de movimiento, copia (<em>clone</em>) y copia impl&#xED;cita (<em>copy</em>) de un valor.</p>
 <p>Practica lo que has aprendido con el <a href="https://play.rust-lang.org/?code=fn+main%28%29+%7B%0A++++let+%28adjective%2C+name%29+%3D+two_words%28%29%3B%0A++++let+name+%3D+format%21%28%22%7B%7D+%7B%7D%22%2C+adjective%2C+name%29%3B%0A++++print_out%28name%29%3B%0A%7D%0A%0Afn+two_words%28%29+-%3E+%28String%2C+String%29+%7B%0A++++%28format%21%28%22fellow%22%29%2C+format%21%28%22Rustaceans%22%29%29%0A%7D%0A%0Afn+remove_vowels%28name%3A+String%29+-%3E+String+%7B%0A++++%2F%2F+Goal+%231%3A+What+is+needed+here+to+make+this+compile%3F%0A++++let+output+%3D+String%3A%3Anew%28%29%3B%0A++++for+c+in+name.chars%28%29+%7B%0A++++++++match+c+%7B%0A++++++++++++%27a%27+%7C+%27e%27+%7C+%27i%27+%7C+%27o%27+%7C+%27u%27+%3D%3E+%7B%0A++++++++++++++++%2F%2F+skip+vowels%0A++++++++++++%7D%0A++++++++++++_+%3D%3E+%7B%0A++++++++++++++++output.push%28c%29%3B%0A++++++++++++%7D%0A++++++++%7D%0A++++%7D%0A++++output%0A%7D%0A%0Afn+print_out%28name%3A+String%29+%7B%0A++++let+devowelized_name+%3D+remove_vowels%28name%29%3B%0A++++println%21%28%22Removing+vowels+yields+%7B%3A%3F%7D%22%2C+devowelized_name%29%3B%0A%0A++++%2F%2F+Goal+%232%3A+What+happens+when+you+uncomment+the+%60println%60+below%3F%0A++++%2F%2F+Can+you+change+the+code+above+so+that+the+code+below+compiles%0A++++%2F%2F+successfully%3F%0A++++%2F%2F%0A++++%2F%2F+println%21%28%22Removing+vowels+from+%7B%3A%3F%7D+yields+%7B%3A%3F%7D%22%2C%0A++++%2F%2F++++++++++name%2C+devowelized_name%29%3B%0A%0A++++%2F%2F+Extra+credit%3A+Can+you+do+it+without+copying+any+data%3F%0A++++%2F%2F+%28Using+only+ownership+transfer%29%0A%7D%0A&amp;version=nightly" target="_blank">ejercicio 2</a>. Recuerda que el compilador de Rust <strong>es tu aliado</strong>, lee los mensajes de error con atenci&#xF3;n para obtener pistas acerca de c&#xF3;mo completar el ejercicio.</p>
-<h2 id="borrows">Pr&#xE9;stamo </h2>
-<p>Existe una forma de evitar el movimiento de un valor y aun as&#xED; no tener que copiarlo, simplificando el uso de nuestras funciones. Para ello Rust permite &quot;dar en pr&#xE9;stamo&quot; un valor. Puedes pensar que &quot;dar en pr&#xE9;stamo&quot; es realmente &quot;conceder acceso temporal&quot; al valor. Esta concesi&#xF3;n se realiza por medio de referencias y, a menos que es especifique expl&#xED;citamente, el acceso resultante es de s&#xF3;lo lectura:</p>
+<h3 id="borrows">Pr&#xE9;stamo </h3>
+<p>Existe una forma de evitar el movimiento de un valor y aun as&#xED; no tener que copiarlo, simplificando el uso de nuestras funciones. Para ello Rust permite &quot;dar en pr&#xE9;stamo&quot; un valor. Puedes pensar que &quot;dar en pr&#xE9;stamo&quot; es realmente &quot;conceder permisos de lectura o escritura, temporalmente&quot;. Esta concesi&#xF3;n se realiza por medio de referencias y, a menos que es especifique expl&#xED;citamente, el acceso resultante es de s&#xF3;lo lectura:</p>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
     <span class="hljs-keyword">let</span> name: <span class="hljs-built_in">String</span> = <span class="hljs-string">&quot;Salva&quot;</span>.to_string();
     greeting(&amp;name); <span class="hljs-comment">// Pasamos una referencia a la funci&#xF3;n.</span>
@@ -517,8 +557,10 @@
 }
 </code></pre>
 <p>F&#xED;jate en la sint&#xE1;xis: el tipo <code>&amp;String</code> significa &quot;referencia a String&quot; y el mismo ampersand <code>&amp;</code> acompa&#xF1;ado de un valor como en <code>&amp;name</code> significa &quot;tomar una referencia al valor&quot;. Al pasar, devolver o asignar referencias estamos &quot;prestando el valor&quot;.</p>
+<p>Las referencias son parte del tipo. <code>String</code> y <code>&amp;String</code> <strong>son tipos distintos</strong> de la misma forma que las expresiones <code>&quot;Salva&quot;.to_string()</code> y <code>&amp;&quot;Salva&quot;.to_string()</code> devuelven <strong>valores de tipos distintos</strong>.</p>
 <p>Los pr&#xE9;stamos evitan el uso de copias sin tener que mover el valor <em>de vuelta</em>, lo que resulta en usos m&#xE1;s naturales de las funciones.</p>
-<p>Adem&#xE1;s <strong>los pr&#xE9;stamos no transfieren la propiedad</strong>. El encargado de destruir el dato creado lo mantiene la funci&#xF3;n desde la que se tom&#xF3; el pr&#xE9;stamo.</p>
+<p>Adem&#xE1;s <strong>los pr&#xE9;stamos no transfieren la propiedad</strong>. El encargado de destruir el dato creado lo mantiene la funci&#xF3;n desde la que se tom&#xF3; el pr&#xE9;stamo. El pr&#xE9;stamo termina cuando la referencia se destruye, normalmente al final de la funci&#xF3;n.</p>
+<p>Puedes pensar en una referencia como en un &quot;portal m&#xE1;gico&quot; por el que mirar a otro lugar. El portal a un valor se obtiene prefijando el valor con <code>&amp;</code>. La funci&#xF3;n que crea el portal pasa una copia del portal a las funciones llamadas pero no toca el lugar original. Cuando la funci&#xF3;n que ha usado el portal termina, tambi&#xE9;n destruye su copia del portal lo que no afecta a aquello que se viera a trav&#xE9;s de &#xE9;l.</p>
 <p>Trata de adaptar t&#xFA; el <a href="http://is.gd/no0tTH" target="_blank">siguiente ejemplo</a>.</p>
 <p>Es importante recordar que el acceso por defecto de Rust es de <strong>s&#xF3;lo lectura</strong>. Esto quiere decir que, a menos que se especifique expl&#xED;citamente, no podemos alterar el valor de una variable...</p>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
@@ -536,8 +578,8 @@
     message.push(<span class="hljs-string">&apos;!&apos;</span>); <span class="hljs-comment">// error, cannot borrow immutable borrowed content `*message` as mutable</span>
 }
 </code></pre>
-<h3 id="sint&#xE1;xis-de-alto-nivel-y-eficiencia-de-bajo-nivel">Sint&#xE1;xis de alto nivel y eficiencia de bajo nivel</h3>
-<p>Adem&#xE1;s de un lenguaje de sistemas, Rust es un <strong>lenguaje moderno, de alto nivel</strong> por lo que ofrece estructuras sint&#xE1;cticas avanzadas pero evitando copias o reservas de memoria.</p>
+<h4 id="sint&#xE1;xis-de-alto-nivel-y-eficiencia-de-bajo-nivel">Sint&#xE1;xis de alto nivel y eficiencia de bajo nivel</h4>
+<p>Adem&#xE1;s de un lenguaje de sistemas, Rust es un <strong>lenguaje moderno, de alto nivel</strong> por lo que ofrece estructuras sint&#xE1;cticas avanzadas al tiempo que evita copias o reservas de memoria.</p>
 <p>Es el caso con las porciones (comunmente conocidas como <em>slices</em>), en las que nos referimos a un subrango de un vector:</p>
 <pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
     <span class="hljs-keyword">let</span> name: <span class="hljs-built_in">String</span> = <span class="hljs-string">&quot;Salva&quot;</span>.to_string();
@@ -564,6 +606,76 @@
 </code></pre>
 <p>Ninguno de los ejemplos anteriores involucra copias de ning&#xFA;n modo. Puedes repasar las <a href="http://www.rust-tutorials.com/RustConf17//PDF/20-Sharing.pdf" target="_blank">diapositivas de este tema</a> que incluyen representaciones de la memoria en estos casos para comprobar que las copias no son necesarias.</p>
 <p>Cuando creas conveniente, practica con el <a href="https://play.rust-lang.org/?code=pub+fn+main%28%29+%7B%0A++++let+string+%3D+format%21%28%22my+friend%22%29%3B%0A++++greet%28string.clone%28%29%29%3B%0A++++greet%28string%29%3B%0A%7D%0A%0Afn+greet%28name%3A+String%29+%7B%0A++++println%21%28%22Hello%2C+%7B%7D%21%22%2C+name%29%3B%0A%7D%0A%0A%2F%2F+Goal+%231%3A+Convert+%60greet%60+to+use+borrowing%2C+not+ownership%2C+so+that%0A%2F%2F+this+program+executes+without+doing+any+cloning.%0A%2F%2F%0A%2F%2F+Goal+%232%3A+Use+a+subslice+so+that+it+prints+%22Hello%2C+friend%22+instead+of%0A%2F%2F+%22Hello%2C+my+friend%22.%0A&amp;version=nightly" target="_blank">siguiente ejercicio</a>.</p>
+<h3 id="mutable-borrows">Pr&#xE9;stamos mutables </h3>
+<p>Es posible pasar una referencia mutable a una funci&#xF3;n. O visto de otra forma, &#xBF;recuerdas el &quot;portal m&#xE1;gico&quot; de la lecci&#xF3;n anterior? Pues es posible pasar un portal a trav&#xE9;s del cual podamos acceder f&#xED;sicamente y manipular el objeto al otro lado.</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> name = <span class="hljs-string">&quot;Salva&quot;</span>.to_string();
+    complete(&amp;<span class="hljs-keyword">mut</span> name);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Complete name: {}&quot;</span>, name);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">complete</span></span>(s: &amp;<span class="hljs-keyword">mut</span> <span class="hljs-built_in">String</span>) {
+    s.push_str(<span class="hljs-string">&quot;dor&quot;</span>);
+}
+</code></pre>
+<p>F&#xED;jate en la nueva sint&#xE1;xis: ahora el tipo esperado en la funci&#xF3;n <code>complete()</code> es <code>&amp;mut String</code> o &quot;referencia mutable a String&quot;, y de la misma forma, la expresi&#xF3;n <code>name</code> se precede de <code>&amp;mut</code> que obtiene una referencia mutable al valor.</p>
+<p>El ejemplo anterior <strong>no funciona</strong>. El compilador de Rust dice:</p>
+<pre><code>error[E0596]: cannot borrow immutable local variable `name` as mutable
+ --&gt; src/main.rs:4:19
+  |
+3 |     let name = &quot;Salva&quot;.to_string();
+  |         ---- consider changing this to `mut name`
+4 |     complete(&amp;mut name);
+  |                   ^^^^ cannot borrow mutably
+</code></pre><p>Esto es as&#xED; porque si realizamos un pr&#xE9;stamo mutable, debemos aceptar que el valor <code>name</code> (del que aun tenemos la propiedad) pueda cambiar y debemos indicarlo expl&#xED;citamente:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> name = <span class="hljs-string">&quot;Salva&quot;</span>.to_string(); <span class="hljs-comment">// f&#xED;jate en que ahora name es mutable.</span>
+    complete(&amp;<span class="hljs-keyword">mut</span> name);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Complete name: {}&quot;</span>, name);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">complete</span></span>(s: &amp;<span class="hljs-keyword">mut</span> <span class="hljs-built_in">String</span>) {
+    s.push_str(<span class="hljs-string">&quot;dor&quot;</span>);
+}
+</code></pre>
+<p>Antes de continuar, repasa los pr&#xE9;stamos sin mutabilidad <a href="https://play.rust-lang.org/?code=fn%20main%28%29%20%7B%0A%20%20%20%20let%20name%20%3D%20format!%28%22fellow%20Rustaceans%22%29%3B%0A%20%20%20%20helper%28name%29%3B%0A%20%20%20%20helper%28name%29%3B%0A%7D%0A%0Afn%20helper%28name%3A%20String%29%20%7B%0A%20%20%20%20println!%28%22Hello%2C%20%7B%7D!%22%2C%20name%29%3B%0A%7D&amp;version=stable" target="_blank">haciendo que este ejemplo compile</a>.</p>
+<h4 id="preservando-la-seguridad">Preservando la seguridad</h4>
+<p>Prestar valores indistintamente para lectura o escritura entra&#xF1;a diversos riesgos: en un escenario concurrente donde las lecturas y escrituras de varias funciones pueden entremezclarse, es posible que los valores se modifiquen justo despu&#xE9;s de que las lecturas se produzcan y se tomen decisiones en funci&#xF3;n de datos desactualizados, llevando a falsas asunciones y a resultados incorrectos.</p>
+<p>En un escenario sin concurrencia, la alteraci&#xF3;n de algunos valores puede llevar a recolocarlos en la memoria haciendo que otras referencias a los mismos queden desactualizadas.</p>
+<p>Para evitar estas situaciones, Rust establece una regla:</p>
+<ul>
+<li>No puede haber, jam&#xE1;s, un pr&#xE9;stamo de lectura y otro de escritura simultaneos.</li>
+</ul>
+<p>Si tal situaci&#xF3;n pudiera producirse, Rust <strong>no compilar&#xE1; el programa</strong>. Conviene recordar que la obtenci&#xF3;n de una referencia mutable confiere tambi&#xE9;n un permiso de lectura por lo que no pueden producirse dos pr&#xE9;stamos mutables al mismo tiempo. En t&#xE9;rminos de mutabilidad, esta regla se traduce en dos:</p>
+<ol>
+<li>Un &#xFA;nico pr&#xE9;stamo mutable...</li>
+<li>...o m&#xFA;ltiples pr&#xE9;stamos inmutables y ninguno mutable.</li>
+</ol>
+<p>Por ejemplo:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> name = <span class="hljs-string">&quot;Salva&quot;</span>.to_string();
+    <span class="hljs-keyword">let</span> end = &amp;name[<span class="hljs-number">1</span>..];
+    complete(&amp;<span class="hljs-keyword">mut</span> name);
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Hello, {}!&quot;</span>, name);
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">complete</span></span>(name: &amp;<span class="hljs-keyword">mut</span> <span class="hljs-built_in">String</span>) {
+    name.push_str(<span class="hljs-string">&quot;dor&quot;</span>);
+}
+</code></pre>
+<p>El c&#xF3;digo anterior falla al compilar porque &quot;no se puede prestar <code>name</code> como mutable porque tambi&#xE9;n se ha prestado como inmutable&quot;:</p>
+<pre><code>error[E0502]: cannot borrow `name` as mutable because it is also borrowed as immutable
+ --&gt; src/main.rs:4:19
+  |
+3 |     let end = &amp;name[1..];
+  |                ---- immutable borrow occurs here
+4 |     complete(&amp;mut name);
+  |                   ^^^^ mutable borrow occurs here
+5 |     println!(&quot;Hello, {}!&quot;, name);
+6 | }
+  | - immutable borrow ends here
+</code></pre><p>Las <a href="http://www.rust-tutorials.com/RustConf17//PDF/25-Mutable%20borrows.pdf" target="_blank">diapositivas sobre mutabilidad</a> explican con ejemplos visuales una situaci&#xF3;n en la que un valor crece hasta el punto de tener que ser recolocado en memoria.</p>
+<p>Primero <a href="https://play.rust-lang.org/?code=pub+fn+main%28%29+%7B%0A++++let+%28mut+str1%2C+str2%29+%3D+two_words%28%29%3B%0A++++str1+%3D+join_words%28str1%2C+str2%29%3B%0A++++println%21%28%22concatenated+string+is+%7B%3A%3F%7D%22%2C+str1%29%3B%0A%7D%0A%0Afn+two_words%28%29+-%3E+%28String%2C+String%29+%7B%0A++++%28format%21%28%22fellow%22%29%2C+format%21%28%22Rustaceans%22%29%29%0A%7D%0A%0A%2F%2F%2F+Concatenate+%60suffix%60+onto+the+end+of+%60prefix%60.%0Afn+join_words%28mut+prefix%3A+String%2C+suffix%3A+String%29+-%3E+String+%7B%0A++++prefix.push%28%27+%27%29%3B+%2F%2F+separate+the+words+with+a+space%0A++++for+ch+in+suffix.chars%28%29+%7B%0A++++++++prefix.push%28ch%29%3B%0A++++%7D%0A++++prefix%0A%7D%0A%0A%2F%2F+Challenge%3A+Convert+%60join_words%60+to+use+borrowing%2C+not+ownership.%0A%2F%2F+The+new+function+should+mutate+%60prefix%60+in+place%2C+and+should+not%0A%2F%2F+take+ownership+of+%60suffix%60.%0A%2F%2F%0A%2F%2F+Hint%3A+If+you%27d+like+a+hint+as+to+how+to+proceed%2C+open%0A%2F%2F+%3Chttp%3A%2F%2Frust-tutorials.com%2FRustConf17%2F%2Fhint%2Fmutable_borrow_1%2F%3E.%0A%0A%2F%2F+Question%3A+Now+that+you%27ve+converted+%60join_words%60%2C+what+happens+if+you%0A%2F%2F+call+%60join_words%60+using+the+same+string+for+%60prefix%60+and+%60suffix%60%3F%0A%2F%2F+Why%3F%0A&amp;version=nightly" target="_blank">completa el ejercicio de esta lecci&#xF3;n</a> y luego trata de responder a la pregunta planteada antes de probar a compilar bajo el nuevo supuesto.</p>
 
                                 
                                 </section>
@@ -607,7 +719,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Introducción","level":"3.1","depth":1,"next":{"title":"Tutorial para principiantes","level":"3.2","depth":1,"anchor":"#beginner","path":"workshop/workshop.md","ref":"workshop/workshop.md#beginner","articles":[{"title":"Propiedad","level":"3.2.1","depth":2,"anchor":"#ownership","path":"workshop/workshop.md","ref":"workshop/workshop.md#ownership","articles":[]},{"title":"Préstamo","level":"3.2.2","depth":2,"anchor":"#borrows","path":"workshop/workshop.md","ref":"workshop/workshop.md#borrows","articles":[]}]},"previous":{"title":"¿Qué es Rust Playground?","level":"2.1","depth":1,"anchor":"#rust-playground","path":"environment/rust-playground.md","ref":"environment/rust-playground.md#rust-playground","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"es","gitbook":"*"},"file":{"path":"workshop/workshop.md","mtime":"2018-05-11T08:28:25.050Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-18T18:00:35.800Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Introducción","level":"3.1","depth":1,"next":{"title":"Tutorial para principiantes","level":"3.2","depth":1,"anchor":"#beginner","path":"workshop/workshop.md","ref":"workshop/workshop.md#beginner","articles":[{"title":"Propiedad","level":"3.2.1","depth":2,"anchor":"#ownership","path":"workshop/workshop.md","ref":"workshop/workshop.md#ownership","articles":[]},{"title":"Préstamo","level":"3.2.2","depth":2,"anchor":"#borrows","path":"workshop/workshop.md","ref":"workshop/workshop.md#borrows","articles":[]},{"title":"Préstamos mutables","level":"3.2.3","depth":2,"anchor":"#mutable-borrows","path":"workshop/workshop.md","ref":"workshop/workshop.md#mutable-borrows","articles":[]}]},"previous":{"title":"¿Qué es Rust Playground?","level":"2.1","depth":1,"anchor":"#rust-playground","path":"environment/rust-playground.md","ref":"environment/rust-playground.md#rust-playground","articles":[]},"dir":"ltr"},"config":{"plugins":[],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"es","gitbook":"*"},"file":{"path":"workshop/workshop.md","mtime":"2018-05-28T20:26:53.255Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2018-05-28T20:27:06.883Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
